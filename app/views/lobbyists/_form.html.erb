@@ -1,0 +1,25 @@
+<%= form_for(@lobbyist) do |f| %>
+  <% if @lobbyist.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@lobbyist.errors.count, "error") %> prohibited this lobbyist from being saved:</h2>
+
+      <ul>
+      <% @lobbyist.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :firm_id %><br>
+    <%= f.number_field :firm_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
