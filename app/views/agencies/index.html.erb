@@ -18,9 +18,7 @@
         <td><%= agency.name %></td>
         <td><%= agency.address %></td>
         <td><%= agency.description %></td>
-        <td><%= link_to 'Show', agency %></td>
-        <td><%= link_to 'Edit', edit_agency_path(agency) %></td>
-        <td><%= link_to 'Destroy', agency, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', agency_path(agency.slug) %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +26,3 @@
 
 <br>
 
-<%= link_to 'New Agency', new_agency_path %>

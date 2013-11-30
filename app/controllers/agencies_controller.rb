@@ -64,7 +64,7 @@ class AgenciesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_agency
-      @agency = Agency.find(params[:id])
+      @agency = Agency.find_by(slug: params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

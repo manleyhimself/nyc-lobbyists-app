@@ -16,9 +16,7 @@
       <tr>
         <td><%= lobbyist.name %></td>
         <td><%= lobbyist.firm_id %></td>
-        <td><%= link_to 'Show', lobbyist %></td>
-        <td><%= link_to 'Edit', edit_lobbyist_path(lobbyist) %></td>
-        <td><%= link_to 'Destroy', lobbyist, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', lobbyist_path(lobbyist.slug) %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +24,3 @@
 
 <br>
 
-<%= link_to 'New Lobbyist', new_lobbyist_path %>

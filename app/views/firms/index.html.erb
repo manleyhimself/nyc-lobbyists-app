@@ -16,9 +16,7 @@
       <tr>
         <td><%= firm.name %></td>
         <td><%= firm.address %></td>
-        <td><%= link_to 'Show', firm %></td>
-        <td><%= link_to 'Edit', edit_firm_path(firm) %></td>
-        <td><%= link_to 'Destroy', firm, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', firm_path(firm.slug) %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +24,3 @@
 
 <br>
 
-<%= link_to 'New Firm', new_firm_path %>

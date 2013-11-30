@@ -1,11 +1,22 @@
 NycLobbyistsApp::Application.routes.draw do
-  resources :agencies
+  
+  get '/lobbyists', to: 'lobbyists#index'
 
-  resources :clients
+  get '/lobbyists/:id', to: 'lobbyists#show', as: 'lobbyist'
 
-  resources :firms
+  get '/firms', to: 'firms#index'
 
-  resources :lobbyists
+  get '/firms/:id', to: 'firms#show', as: 'firm'
+
+  get '/clients', to: 'clients#index'
+
+  get '/clients/:id', to: 'clients#show', as: 'client'
+
+  get '/agencies', to: 'agencies#index'
+
+  get '/agencies/:id', to: 'agencies#show', as: 'agency'
+
+  root 'application#root'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

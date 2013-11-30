@@ -64,7 +64,7 @@ class FirmsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_firm
-      @firm = Firm.find(params[:id])
+      @firm = Firm.find_by(slug: params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
