@@ -5,3 +5,25 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+
+
+10.times do
+  Client.create(:name => Faker::Name.name)
+end
+
+10.times do
+  Agency.create(:name => Faker::Name.name)
+end
+
+10.times do
+  Firm.create(:name => Faker::Name.name)
+end
+
+10.times do |x| 
+  Lobbyist.create(:name => Faker::Name.name, firm_id: (x+1))
+end
+
+10.times do |x|
+  Action.create(client_id: (x+1), agency_id: (x+1), lobbyist_id: (x+1), payment: 5000)
+end

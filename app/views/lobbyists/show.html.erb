@@ -7,7 +7,31 @@
 
 <p>
   <strong>Firm:</strong>
-  <%= @lobbyist.firm_id %>
+  <%= link_to @lobbyist.firm.name, firm_path(@lobbyist.firm.slug) %>
 </p>
 
 <%= link_to 'Back', lobbyists_path %>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Client</th>
+      <th>Agency</th>
+      <th>Amount</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @lobbyist.actions.each do |action| %>
+      <tr>
+        <td><%= link_to action.client.name, client_path(action.client.slug) %></td>
+        <td><%= link_to action.agency.name, agency_path(action.agency.slug) %></td>
+        <td><%= action.payment %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -11,3 +11,31 @@
 </p>
 
 <%= link_to 'Back', firms_path %>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Lobbyist</th>
+      <th>Agency</th>
+      <th>Client</th>
+      <th>Amount</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @firm.lobbyists.each do |lobbyist| %>
+      <% lobbyist.actions.each do |action| %>
+        <tr>
+          <td><%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %></td>
+          <td><%= link_to action.agency.name, agency_path(action.agency.slug) %></td>
+          <td><%= link_to action.client.name, client_path(action.client.slug) %></td>
+          <td><%= action.payment %></td>
+        </tr>
+        <% end %>
+    <% end %>
+  </tbody>
+</table>

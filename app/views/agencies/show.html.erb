@@ -15,4 +15,28 @@
   <%= @agency.description %>
 </p>
 
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Lobbyist</th>
+      <th>Client</th>
+      <th>Amount</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @agency.actions.each do |action| %>
+      <tr>
+        <td><%= link_to action.lobbyist.name, lobbyist_path(action.lobbyist.slug) %></td>
+        <td><%= link_to action.client.name, client_path(action.client.slug) %></td>
+        <td><%= action.payment %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 <%= link_to 'Back', agencies_path %>
