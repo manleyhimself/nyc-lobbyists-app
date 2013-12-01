@@ -1,6 +1,6 @@
 class Action < ActiveRecord::Base
-  belongs_to :lobbyist
-  belongs_to :agency
+  has_and_belongs_to_many :lobbyist
+  has_and_belongs_to_many :agency
   belongs_to :client
 
 end
