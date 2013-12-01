@@ -13,13 +13,16 @@
 <%= link_to 'Back', firms_path %>
 
 
-<table>
+<table class="firmTable">
   <thead>
     <tr>
-      <th>Lobbyist</th>
-      <th>Agency</th>
-      <th>Client</th>
-      <th>Amount</th>
+      <th style="cursor: pointer; cursor: hand;"><a>Lobbyist</a></th>
+      <th>
+      <th style="cursor: pointer; cursor: hand;"><a>Agency</a></th>
+      <th>
+      <th style="cursor: pointer; cursor: hand;"><a>Client</a></th>
+      <th>
+      <th style="cursor: pointer; cursor: hand;"><a> Amount </a></th>
       <th></th>
       <th></th>
       <th></th>
@@ -28,12 +31,15 @@
 
   <tbody>
     <% @firm.lobbyists.each do |lobbyist| %>
-      <% lobbyist.actions.each do |action| %>
+      <% lobbyist.actions.sort_by { |action| -action.payment }.each do |action| %>
         <tr>
           <td><%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %></td>
+          <td>
           <td><%= link_to action.agency.name, agency_path(action.agency.slug) %></td>
+          <td>
           <td><%= link_to action.client.name, client_path(action.client.slug) %></td>
-          <td><%= action.payment %></td>
+          <td>
+          <td>$<%= action.payment %></td>
         </tr>
         <% end %>
     <% end %>

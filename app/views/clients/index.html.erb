@@ -1,19 +1,21 @@
 <h1>Listing clients</h1>
 
-<table>
+<table class="clientTable tablesorter">
   <thead>
     <tr>
-      <th>Name</th>
+      <th style="cursor: pointer; cursor: hand;"> <a> Name </a> </th>
+      <th style="cursor: pointer; cursor: hand;"><a id="payments"> Amount Paid </a></th>
       <th></th>
-      <th></th>
+      <th></th> 
       <th></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @clients.each do |client| %>
+    <% @clients.sort_by_client_payments.each do |client| %>
       <tr>
         <td><%= client.name %></td>
+        <td>$<%= client.all_payments %></td>
         <td><%= link_to 'Show', client_path(client.slug) %></td>
       </tr>
     <% end %>

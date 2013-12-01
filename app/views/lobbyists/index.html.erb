@@ -1,21 +1,23 @@
 <h1>Listing lobbyists</h1>
 
-<table>
+<table class="lobbyTable">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Firm</th>
+      <th style="cursor: pointer; cursor: hand;"><a> Firm </a> </th>
+      <th style="cursor: pointer; cursor: hand;"><a> Name </a> </th>
+      <th style="cursor: pointer; cursor: hand;"><a> Amount Billed </a></th>
       <th></th>
       <th></th>
       <th></th>
     </tr>
   </thead>
-
+  
   <tbody>
-    <% @lobbyists.each do |lobbyist| %>
+    <% @lobbyists.sort_by_payments.each do |lobbyist| %>
       <tr>
+        <td><%= lobbyist.firm.name %></td>
         <td><%= lobbyist.name %></td>
-        <td><%= lobbyist.firm_id %></td>
+        <td>$<%= lobbyist.all_payments%></td>
         <td><%= link_to 'Show', lobbyist_path(lobbyist.slug) %></td>
       </tr>
     <% end %>

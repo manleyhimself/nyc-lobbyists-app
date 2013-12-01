@@ -13,12 +13,12 @@
 <%= link_to 'Back', lobbyists_path %>
 
 
-<table>
+<table class="lobbyTable">
   <thead>
     <tr>
-      <th>Client</th>
-      <th>Agency</th>
-      <th>Amount</th>
+      <th style="cursor: pointer; cursor: hand;"><a>Client</a></th>
+      <th style="cursor: pointer; cursor: hand;"><a>Agency</a></th>
+      <th style="cursor: pointer; cursor: hand;"><a>Amount</a></th>
       <th></th>
       <th></th>
       <th></th>
@@ -26,11 +26,11 @@
   </thead>
 
   <tbody>
-    <% @lobbyist.actions.each do |action| %>
+    <% @lobbyist.actions.sort_by { |action| -action.payment }.each do |action| %>
       <tr>
         <td><%= link_to action.client.name, client_path(action.client.slug) %></td>
         <td><%= link_to action.agency.name, agency_path(action.agency.slug) %></td>
-        <td><%= action.payment %></td>
+        <td>$<%= action.payment %></td>
       </tr>
     <% end %>
   </tbody>

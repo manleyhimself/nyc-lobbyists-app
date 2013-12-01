@@ -1,25 +1,26 @@
 <h1>Listing firms</h1>
 
-<table>
+<table class="firmTable tablesorter">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Address</th>
+      <th style="cursor: pointer; cursor: hand;"> <a> Name </a> </th>
+      <th style="cursor: pointer; cursor: hand;"><a id="payments"> Amount Billed </a></th> 
       <th></th>
-      <th></th>
+      <th></th> 
       <th></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @firms.each do |firm| %>
+    <% @firms.sort_by_firm_payments.each do |firm| %>
       <tr>
         <td><%= firm.name %></td>
-        <td><%= firm.address %></td>
+        <td>$<%= firm.all_payments %></td>
         <td><%= link_to 'Show', firm_path(firm.slug) %></td>
       </tr>
     <% end %>
   </tbody>
+
 </table>
 
 <br>

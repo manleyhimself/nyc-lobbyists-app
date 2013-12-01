@@ -24,6 +24,11 @@ end
   Lobbyist.create(:name => Faker::Name.name, firm_id: (x+1))
 end
 
-10.times do |x|
-  Action.create(client_id: (x+1), agency_id: (x+1), lobbyist_id: (x+1), payment: 5000)
+100.times do |x|
+  Action.create(client_id: (x+1), agency_id: (x+1), lobbyist_id: (x+1), payment: rand(100..5000))
 end
+
+100.times do 
+  Action.create(client_id: (rand(1..10)), agency_id: (rand(1..10)), lobbyist_id: (rand(1..10)), payment: rand(100..5000))
+end
+

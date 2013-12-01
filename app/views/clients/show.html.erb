@@ -8,24 +8,24 @@
 <%= link_to 'Back', clients_path %>
 
 
-<table>
+<table class="clientTable">
   <thead>
     <tr>
-      <th>Lobbyist</th>
-      <th>Agency</th>
-      <th>Amount</th>
+      <th style="cursor: pointer; cursor: hand;"> <a> Lobbyist </a> </th>
+      <th style="cursor: pointer; cursor: hand;"><a id="payments"> Agency</a></th>
+      <th style="cursor: pointer; cursor: hand;"><a id="payments"> Amount</a></th>
       <th></th>
-      <th></th>
+      <th></th> 
       <th></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @client.actions.each do |action| %>
+    <% @client.actions.sort_by { |action| -action.payment}.each do |action| %>
       <tr>
         <td><%= link_to action.lobbyist.name, lobbyist_path(action.lobbyist.slug) %></td>
         <td><%= link_to action.agency.name, agency_path(action.agency.slug) %></td>
-        <td><%= action.payment %></td>
+        <td>$<%= action.payment %></td>
       </tr>
     <% end %>
   </tbody>
