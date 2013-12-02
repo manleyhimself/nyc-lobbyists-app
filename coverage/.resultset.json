@@ -1,0 +1,110 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/Users/manleyhimself/Code/rails-apps/nyc-lobbyists/nyc-lobbyists-app/app/models/lobbyist_action.rb": [
+        1,
+        1,
+        1,
+        null
+      ],
+      "/Users/manleyhimself/Code/rails-apps/nyc-lobbyists/nyc-lobbyists-app/app/models/lobbyist.rb": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        1,
+        0,
+        0,
+        null,
+        0,
+        null,
+        null,
+        1,
+        0,
+        null,
+        null,
+        1,
+        0,
+        0,
+        null,
+        null,
+        null
+      ],
+      "/Users/manleyhimself/Code/rails-apps/nyc-lobbyists/nyc-lobbyists-app/app/models/concerns/model_instance_methods.rb": [
+        1,
+        1,
+        null,
+        1,
+        3,
+        null,
+        null,
+        1,
+        265,
+        null,
+        null
+      ],
+      "/Users/manleyhimself/Code/rails-apps/nyc-lobbyists/nyc-lobbyists-app/app/models/client.rb": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        1,
+        0,
+        0,
+        null,
+        0,
+        null,
+        null,
+        1,
+        0,
+        null,
+        null,
+        1,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null
+      ],
+      "/Users/manleyhimself/Code/rails-apps/nyc-lobbyists/nyc-lobbyists-app/app/models/agency.rb": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null
+      ],
+      "/Users/manleyhimself/Code/rails-apps/nyc-lobbyists/nyc-lobbyists-app/app/models/action.rb": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "/Users/manleyhimself/Code/rails-apps/nyc-lobbyists/nyc-lobbyists-app/app/models/agency_action.rb": [
+        1,
+        1,
+        1,
+        null
+      ]
+    },
+    "timestamp": 1385963700
+  }
+}

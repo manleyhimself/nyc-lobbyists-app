@@ -53,7 +53,7 @@ group :test, :development do
   gem "rspec-rails"
   gem "capybara"
   gem "selenium-webdriver"
-  gem "better_errors"
+  #gem "better_errors"
   gem "binding_of_caller"
   gem "terminal-notifier-guard"
   gem "factory_girl_rails"
@@ -62,3 +62,43 @@ group :test, :development do
   gem "guard", ">=2.1.0"
   gem "guard-rspec"
 end
+
+
+
+
+=begin
+on directory page of lobbyist firms
+scrape each row,get the href, append "http://www.nyc.gov/lobbyistsearch/" to the beginning and "&op=&pg_l=1" to the end
+
+open each href scraped above
+
+run below loop/scrape for each href
+
+pages = "how many pages returned from search"
+
+pages.times do |n|
+  break if done
+  open-uri get page "url_string#{n}"
+
+  parse rows
+  for each row
+    import if relevent (according to levenstein/percent algorithm)
+  else 
+    dont import and set done = true
+  end
+end
+
+ 
+gem install levenshtein
+Levenshtein.distance('AMERICAN CANCER SOCIETY, INC.'.downcase, 'Geto & de Milly Inc.'.downcase)
+=> 18
+'Geto & de Milly Inc.'.length
+=> 20
+18.0/20
+=> .9
+if this perecent is greater than 40%, then don't include in srape
+
+=end
+
+
+
