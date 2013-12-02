@@ -3,7 +3,7 @@ require 'spec_helper'
 describe LobbyistAction do
   before do
     4.times do |x|
-      Lobbyist.create(name: "#{x}L")
+      Lobbyist.create(name: "#{x}L", firm_id: 1)
     end
     4.times do |x|
       Client.create(name: "#{x}L")
@@ -11,8 +11,11 @@ describe LobbyistAction do
     4.times do |x|
       Agency.create(name: "#{x}L")
     end
+     4.times do |x|
+      Firm.create(name: "#{x}L")
+    end
     3.times do |x|
-      Action.create(client_id: (x+1))
+      Action.create(client_id: (x+1), payment: 500)
     end
     3.times do |x|
       LobbyistAction.create(lobbyist_id: 1, action_id: (x+1))
@@ -30,6 +33,7 @@ describe LobbyistAction do
     @action = Action.find(1)
     @agency = Agency.find(1)
     @client = Client.find(1)
+    @firm = Firm.find(1)
   end
 
   context "when LobbyistAction associations have been properly made" do
@@ -155,6 +159,23 @@ describe LobbyistAction do
         AgencyAction.create(agency_id: 5, action_id: 4)
         @client = Client.find(1)
         expect(@client.agencies.uniq.length).to eq(5)
+      end
+    end
+     context "when all Firm associations have been properly made" do
+
+      it "should have the proper number of lobbyists" do
+        expect(@firm.lobbyists.uniq.length).to eq(4)
+      end
+
+      it "should have the proper amount of clients" do
+        expect(@firm.find_clients_and_payments.keys.length).to eq(3) 
+      end
+
+      it "should have the proper amount of clients" do
+        Client.create(name: "new guy")
+        Action.create(client_id: 5, payment: 5)
+        LobbyistAction.create(action_id: 4, lobbyist_id: 1)
+        expect(@firm.find_clients_and_payments.keys.length).to eq(4) 
       end
     end
   end

@@ -6,20 +6,37 @@ class Lobbyist < ActiveRecord::Base
   has_many :clients, through: :actions
   has_many :agencies, through: :actions
 
-  def sum_all_payments
+  def set_my_payments
     payments = self.actions.map do |action|
-      action.payment
-    end.inject(:+)
-    self.update(all_payments: payments)
+      action.payment if action.lobbyists.length == 1
+    end.compact.inject(:+)
+    self.update(my_payments: payments)
   end
 
-  def self.call_sum
-    self.all.each {|lobbyist| lobbyist.sum_all_payments}
+  def self.call_my_payments
+    self.all.each {|lobbyist| lobbyist.set_my_payments}
   end
 
-  def self.sort_by_payments
-    self.call_sum
-    self.all.sort_by { |lobbyist| -lobbyist.all_payments }
+  def self.sort_by_my_payments
+    self.call_my_payments
+    self.all.sort_by { |lobbyist| -lobbyist.my_payments }
   end
+
+  def set_team_payments
+    payments = self.actions.map do |action|
+      action.payment if action.lobbyists.length > 1
+    end.compact.inject(:+)
+    self.update(team_payments: payments)
+  end
+
+  def self.call_team_payments
+    self.all.each {|lobbyist| lobbyist.set_team_payments}
+  end
+
+  def self.sort_by_team_payments
+    self.call_team_payments
+    self.all.sort_by { |lobbyist| -lobbyist.team_payments }
+  end
+
 
 end

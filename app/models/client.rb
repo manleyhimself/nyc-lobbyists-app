@@ -5,8 +5,8 @@ class Client < ActiveRecord::Base
   has_many :agencies, through: :actions
 
   def sum_all_client_payments
-    payments = self.lobbyists.map do |lobbyist|
-      lobbyist.all_payments
+    payments = self.actions.map do |action|
+      action.payments
     end.inject(:+)
     self.update(all_payments: payments)
   end
