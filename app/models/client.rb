@@ -6,7 +6,7 @@ class Client < ActiveRecord::Base
 
   def sum_all_client_payments
     payments = self.actions.map do |action|
-      action.payments
+      action.payment
     end.inject(:+)
     self.update(all_payments: payments)
   end

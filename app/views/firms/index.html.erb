@@ -14,9 +14,8 @@
   <tbody>
     <% @firms.sort_by_firm_payments.each do |firm| %>
       <tr>
-        <td><%= firm.name %></td>
+        <td><%= link_to firm.name , firm_path(firm.slug) %></td>
         <td>$<%= firm.all_payments %></td>
-        <td><%= link_to 'Show', firm_path(firm.slug) %></td>
       </tr>
     <% end %>
   </tbody>

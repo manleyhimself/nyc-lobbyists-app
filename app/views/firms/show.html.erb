@@ -12,7 +12,20 @@
 
 <%= link_to 'Back', firms_path %>
 
+<h2> 2012 Payments: </h2> 
+<h3> $<%= @firm.all_payments%> </h3>
 
+<h2> Lobbyists Employed: </h2>
+<h3> <%= @firm.lobbyists.length %> </h3>
+
+<h2> Agencies Lobbied: </h2>
+<h3> <%= @firm.find_agencies %> </h3>
+
+<h2> Actions Sought: </h2>
+<h3> <%= @firm.actions.uniq.length %> </h3>
+
+<h2> Clients: </h2>
+<h3> <%= @firm.find_clients_and_payments.keys.length %> </h3>
 
 <table class="firmTable" border="1">
   <thead>
@@ -25,7 +38,7 @@
   </thead>
 
   <tbody>
-    <% @firm.actions.sort_by { |action| -action.payment }.each do |action| %>
+    <% @firm.actions.uniq.sort_by { |action| -action.payment }.each do |action| %>
         <tr>
           <td valign="top"> <% action.lobbyists.each do |lobbyist| %>
             <%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %> <br>
@@ -54,7 +67,7 @@
   </thead>
 
   <tbody>
-    <% @firm.lobbyists.each do |lobbyist| %>
+    <% @firm.lobbyists.sort_by_sum_payments.each do |lobbyist| %>
       <tr>
         <td valign="top"><%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %></td>
         <td valign="top">$<%= lobbyist.my_payments %></td>
@@ -77,29 +90,13 @@
   </thead>
 
   <tbody>
-    <% @sum_payments = 0 %>
-    <% @firm.find_clients_and_payments.each do |client,payment| %>
+    <% @firm.find_clients_and_payments.sort_by { |k,v| -v}.each do |client,payment| %>
       <tr>
         <td valign="top"><%= link_to client, client_path(client.downcase.gsub('.','').gsub(' ','-')) %></td>
-  
         <td valign="top">$<%= payment %></td>
-        <%  @sum_payments += payment %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<h2> 2012 Payments: </h2> 
-<h3> $<%= @sum_payments %> </h3>
 
-<h2> Lobbyists Employed: </h2>
-<h3> <%= @firm.lobbyists.length %> </h3>
-
-<h2> Agencies Lobbied: </h2>
-<h3> <%= @firm.find_agencies %> </h3>
-
-<h2> Actions Sought: </h2>
-<h3> <%= @firm.actions.uniq.length %> </h3>
-
-<h2> Clients: </h2>
-<h3> <%= @firm.find_clients_and_payments.keys.length %> </h3>

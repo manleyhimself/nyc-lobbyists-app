@@ -75,8 +75,8 @@ ActiveRecord::Schema.define(version: 20131202181828) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "slug"
-    t.integer  "my_payments"
-    t.integer  "team_payments"
+    t.integer  "my_payments",   default: 0
+    t.integer  "team_payments", default: 0
   end
 
 end

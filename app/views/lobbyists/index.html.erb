@@ -3,9 +3,9 @@
 <table class="lobbyTable">
   <thead>
     <tr>
-      <th style="cursor: pointer; cursor: hand;"><a> Firm </a> </th>
       <th style="cursor: pointer; cursor: hand;"><a> Name </a> </th>
-      <th style="cursor: pointer; cursor: hand;"><a> Amount Billed </a></th>
+      <th style="cursor: pointer; cursor: hand;"><a> Amount Billed Alone </a></th>
+      <th style="cursor: pointer; cursor: hand;"><a> Amount Billed With a Group </a></th>
       <th></th>
       <th></th>
       <th></th>
@@ -13,12 +13,11 @@
   </thead>
   
   <tbody>
-    <% @lobbyists.sort_by_payments.each do |lobbyist| %>
+    <% @lobbyists.sort_by_sum_payments.each do |lobbyist| %>
       <tr>
-        <td><%= lobbyist.firm.name %></td>
-        <td><%= lobbyist.name %></td>
-        <td>$<%= lobbyist.all_payments%></td>
-        <td><%= link_to 'Show', lobbyist_path(lobbyist.slug) %></td>
+        <td><%= link_to lobbyist.name, lobbyist_path(lobbyist.slug)%></td>
+        <td>$<%= lobbyist.my_payments %></td>
+        <td>$<%= lobbyist.team_payments%></td>
       </tr>
     <% end %>
   </tbody>

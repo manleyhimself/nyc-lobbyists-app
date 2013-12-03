@@ -9,8 +9,8 @@ class Lobbyist < ActiveRecord::Base
   def set_my_payments
     payments = self.actions.map do |action|
       action.payment if action.lobbyists.length == 1
-    end.compact.inject(:+)
-    self.update(my_payments: payments)
+    end.compact.inject(:+) 
+    self.update(my_payments: payments) if payments
   end
 
   def self.call_my_payments
@@ -26,7 +26,7 @@ class Lobbyist < ActiveRecord::Base
     payments = self.actions.map do |action|
       action.payment if action.lobbyists.length > 1
     end.compact.inject(:+)
-    self.update(team_payments: payments)
+    self.update(team_payments: payments) if payments
   end
 
   def self.call_team_payments
@@ -38,5 +38,14 @@ class Lobbyist < ActiveRecord::Base
     self.all.sort_by { |lobbyist| -lobbyist.team_payments }
   end
 
+  def self.sort_by_sum_payments
+    self.call_team_payments
+    self.call_my_payments
+    self.all.sort_by { |lobbyist| -(lobbyist.team_payments + lobbyist.my_payments) }
+  end
+
+  def sum_payments
+    self.team_payments + self.my_payments
+  end
 
 end

@@ -14,9 +14,8 @@
   <tbody>
     <% @clients.sort_by_client_payments.each do |client| %>
       <tr>
-        <td><%= client.name %></td>
+        <td><%= link_to client.name, client_path(client.slug) %></td>
         <td>$<%= client.all_payments %></td>
-        <td><%= link_to 'Show', client_path(client.slug) %></td>
       </tr>
     <% end %>
   </tbody>

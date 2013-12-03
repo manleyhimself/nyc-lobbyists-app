@@ -10,7 +10,20 @@
   <%= link_to @lobbyist.firm.name, firm_path(@lobbyist.firm.slug) %>
 </p>
 
-<%= link_to 'Back', lobbyists_path %>
+<%= link_to 'Back', lobbyists_path %> <strong> --- should we list the other lobbyist involved with each action???? </strong>
+
+<h2> 2012 Payments: </h2> 
+<h3> $<%= @lobbyist.sum_payments %> </h3>
+
+<h2> Agencies Lobbied: </h2>
+<h3> <%= @lobbyist.find_agencies %> </h3>
+
+<h2> Actions Sought: </h2>
+<h3> <%= @lobbyist.actions.length %> </h3>
+
+<h2> Clients: </h2>
+<h3> <%= @lobbyist.find_clients_and_payments.keys.length %> </h3>
+
 
 
 <table class="lobbyTable">
@@ -28,10 +41,40 @@
   <tbody>
     <% @lobbyist.actions.sort_by { |action| -action.payment }.each do |action| %>
       <tr>
-        <td><%= link_to action.client.name, client_path(action.client.slug) %></td>
-        <td><%= link_to action.agency.name, agency_path(action.agency.slug) %></td>
-        <td>$<%= action.payment %></td>
+        <td valign="top"><%= link_to action.client.name, client_path(action.client.slug) %></td>
+        <td> <% action.agencies.each do |agency| %>
+            <%= link_to agency.name, agency_path(agency.slug) %> <br>
+          <% end %>
+        </td>
+        <td valign="top">$<%= action.payment %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+
+<br>
+<br>
+<br>
+
+<table class="firmTable" border="1">
+  <thead>
+    <tr>
+      <th style="cursor: pointer; cursor: hand;"><a>Client</a></th>
+      <th style="cursor: pointer; cursor: hand;"><a>Billed</a></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sum_payments = 0 %>
+    <% @lobbyist.find_clients_and_payments.sort_by { |k,v| -v}.each do |client,payment| %>
+      <tr>
+        <td valign="top"><%= link_to client, client_path(client.downcase.gsub('.','').gsub(' ','-')) %></td>
+  
+        <td valign="top">$<%= payment %></td>
+        <%  @sum_payments += payment %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

@@ -23,9 +23,42 @@
   <tbody>
     <% @client.actions.sort_by { |action| -action.payment}.each do |action| %>
       <tr>
-        <td><%= link_to action.lobbyist.name, lobbyist_path(action.lobbyist.slug) %></td>
-        <td><%= link_to action.agency.name, agency_path(action.agency.slug) %></td>
-        <td>$<%= action.payment %></td>
+        <td valign="top"> <% action.lobbyists.each do |lobbyist| %>
+          <%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %> <br>
+        <%end%> </td> 
+        <td valign="top"> <% action.agencies.each do |agency| %>
+          <%= link_to agency.name, lobbyist_path(agency.slug) %> <br>
+        <%end%> </td>
+        <td valign="top">$<%= action.payment %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<br>
+
+<table class="clientTable">
+  <thead>
+    <tr>
+      <th style="cursor: pointer; cursor: hand;"> <a> Lobbyist </a> </th>
+      <th style="cursor: pointer; cursor: hand;"><a id="payments"> Amount</a></th>
+      <th></th>
+      <th></th> 
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @client.actions.sort_by { |action| -action.payment}.each do |action| %>
+      <tr>
+        <td valign="top"> <% action.lobbyists.each do |lobbyist| %>
+          <%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %> <br>
+        <%end%> </td> 
+        <td valign="top"> <% action.agencies.each do |agency| %>
+          <%= link_to agency.name, lobbyist_path(agency.slug) %> <br>
+        <%end%> </td>
+        <td valign="top">$<%= action.payment %></td>
       </tr>
     <% end %>
   </tbody>
