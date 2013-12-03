@@ -42,7 +42,9 @@
   <thead>
     <tr>
       <th style="cursor: pointer; cursor: hand;"> <a> Lobbyist </a> </th>
-      <th style="cursor: pointer; cursor: hand;"><a id="payments"> Amount</a></th>
+      <th style="cursor: pointer; cursor: hand;"> <a> Firm </a> </th>
+      <th style="cursor: pointer; cursor: hand;"> <a> Amount to person</a></th>
+      <th style="cursor: pointer; cursor: hand;"> <a> Amount paid to team</a></th>
       <th></th>
       <th></th> 
       <th></th>
@@ -50,15 +52,12 @@
   </thead>
 
   <tbody>
-    <% @client.actions.sort_by { |action| -action.payment}.each do |action| %>
+    <% @client.find_lobbyists_and_payments.sort_by{ |k,v| -([v].inject(:+).join.to_i)}.each do |lobbyist, payment| %>
       <tr>
-        <td valign="top"> <% action.lobbyists.each do |lobbyist| %>
-          <%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %> <br>
-        <%end%> </td> 
-        <td valign="top"> <% action.agencies.each do |agency| %>
-          <%= link_to agency.name, lobbyist_path(agency.slug) %> <br>
-        <%end%> </td>
-        <td valign="top">$<%= action.payment %></td>
+        <td valign="top"><%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %> </td>
+        <td valign="top"><%= link_to lobbyist.firm.name, firm_path(lobbyist.firm.slug) %></td>
+        <td valign="top">$<%= payment[0] %></td>
+        <td valign="top">$<%= payment[1] %></td>
       </tr>
     <% end %>
   </tbody>

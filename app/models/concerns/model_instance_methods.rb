@@ -15,7 +15,7 @@ module ModelInstanceMethods
       if !client_payments_hash.keys.include?(action.client.name) 
         client_payments_hash[action.client.name] = action.payment
       else 
-         client_payments_hash[action.client.name] += action.payment
+        client_payments_hash[action.client.name] += action.payment
       end
     end
     client_payments_hash

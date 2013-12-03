@@ -20,5 +20,30 @@ class Client < ActiveRecord::Base
     self.all.sort_by { |client| -client.all_payments }   
   end
   
+  
+  def find_lobbyists_and_payments
+    # {lobbyist.name 
+    # => [action.client.my_payment_sum,
+    #     action.client.team_payment_sum]}
+    lobbyist_payments_hash = {} 
+    self.actions.sort_by { |action| action.payment }.each do |action|
+      action.lobbyists.each do |lobbyist|
+        if !lobbyist_payments_hash.keys.include?(lobbyist) 
+          lobbyist_payments_hash[lobbyist] = []
+          single_lobbyist = (action.lobbyists.length == 1)
+          lobbyist_payments_hash[lobbyist][0] = (single_lobbyist ? action.payment : 0)
+          lobbyist_payments_hash[lobbyist][1] = (single_lobbyist ? 0 : action.payment)
+        else 
+          single_lobbyist = (action.lobbyists.length == 1)
+          lobbyist_payments_hash[lobbyist][0] += (single_lobbyist ? action.payment : 0)
+          lobbyist_payments_hash[lobbyist][1] += (single_lobbyist ? 0 : action.payment)
+        end
+      end
+    end
+    lobbyist_payments_hash
+  end
 
+
+  
+  
 end
