@@ -16,27 +16,45 @@
 </p>
 
 
+<h2> 2012 Total Spent by Lobbyists to Lobby this Agency: </h2> 
+<h3> $<%= @agency.sum_payments %> </h3>
 
-<table>
+<h2> Lobbyist Actions: </h2>
+<h3> <%= @agency.actions.uniq.length %> </h3>
+
+<h2> Lobbyists: </h2>
+<h3> <%= @agency.lobbyists.uniq.length %> </h3>
+
+<h2> Lobbying Firms: </h2>
+  <% @agency.lobbying_firms.each do |firm|%>
+    <h3> <%= firm.name %> </h3>
+  <% end %>
+
+<h2> Organizations That Lobbied this Agency : </h2>
+<h3> <%= @agency.find_clients_and_payments.keys.length %> </h3>
+
+
+
+<table border='1' class="agentTable">
   <thead>
     <tr>
-      <th>Lobbyist</th>
-      <th>Client</th>
-      <th>Amount</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th style="cursor: pointer; cursor: hand;"> <a>Lobbyists</a></th>
+      <th style="cursor: pointer; cursor: hand;"> <a>Clients</a></th>
+      <th style="cursor: pointer; cursor: hand;"> <a>Amount</a></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @agency.actions.each do |action| %>
+    <% @agency.actions.sort_by { |action| -action.payment }.each do |action| %>
       <tr>
-        <td><%= link_to action.lobbyist.name, lobbyist_path(action.lobbyist.slug) %></td>
-        <td><%= link_to action.client.name, client_path(action.client.slug) %></td>
-        <td><%= action.payment %></td>
+        <td valign="top"> <% action.lobbyists.each do |lobbyist| %>
+            <%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %> <br>
+            <%end%>
+        </td>
+        <td valign="top"> <%= link_to action.client.name, client_path(action.client.slug) %> </td>
+        <td valign="top">$<%= action.payment %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-<%= link_to 'Back', agencies_path %>
+

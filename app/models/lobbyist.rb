@@ -41,7 +41,7 @@ class Lobbyist < ActiveRecord::Base
   def self.sort_by_sum_payments
     self.call_team_payments
     self.call_my_payments
-    self.all.sort_by { |lobbyist| -(lobbyist.team_payments + lobbyist.my_payments) }
+    self.all.sort_by { |lobbyist| -(lobbyist.sum_payments) }
   end
 
   def sum_payments

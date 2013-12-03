@@ -26,10 +26,10 @@ class Client < ActiveRecord::Base
     # => [action.client.my_payment_sum,
     #     action.client.team_payment_sum]}
     lobbyist_payments_hash = {} 
-    self.actions.sort_by { |action| action.payment }.each do |action|
+    self.actions.each do |action|
       action.lobbyists.each do |lobbyist|
         if !lobbyist_payments_hash.keys.include?(lobbyist) 
-          lobbyist_payments_hash[lobbyist] = []
+          lobbyist_payments_hash[lobbyist] ||= [0,0]
           single_lobbyist = (action.lobbyists.length == 1)
           lobbyist_payments_hash[lobbyist][0] = (single_lobbyist ? action.payment : 0)
           lobbyist_payments_hash[lobbyist][1] = (single_lobbyist ? 0 : action.payment)
@@ -43,7 +43,4 @@ class Client < ActiveRecord::Base
     lobbyist_payments_hash
   end
 
-
-  
-  
 end

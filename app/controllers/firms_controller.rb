@@ -10,8 +10,7 @@ class FirmsController < ApplicationController
   # GET /firms/1
   # GET /firms/1.json
   def show
-    Lobbyist.call_team_payments
-    Lobbyist.call_my_payments
+    Firm.call_sum
   end
 
   # GET /firms/new

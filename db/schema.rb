@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131203150442) do
+ActiveRecord::Schema.define(version: 20131203200047) do
 
   create_table "actions", force: true do |t|
     t.string   "purpose"
@@ -33,6 +33,9 @@ ActiveRecord::Schema.define(version: 20131203150442) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "slug"
+    t.integer  "average_action_cost", default: 0
+    t.integer  "solo_payments",       default: 0
+    t.integer  "group_payments",      default: 0
   end
 
   create_table "agency_actions", force: true do |t|

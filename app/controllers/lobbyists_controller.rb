@@ -10,6 +10,8 @@ class LobbyistsController < ApplicationController
   # GET /lobbyists/1
   # GET /lobbyists/1.json
   def show
+    Lobbyist.call_team_payments
+    Lobbyist.call_my_payments
   end
 
   # GET /lobbyists/new

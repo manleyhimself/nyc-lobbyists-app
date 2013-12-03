@@ -27,76 +27,85 @@
 <h2> Clients: </h2>
 <h3> <%= @firm.find_clients_and_payments.keys.length %> </h3>
 
-<table class="firmTable" border="1">
-  <thead>
-    <tr>
-      <th style="cursor: pointer; cursor: hand;"><a>Lobbyist</a></th>
-      <th style="cursor: pointer; cursor: hand;"><a>Agency</a></th>
-      <th style="cursor: pointer; cursor: hand;"><a>Client</a></th>
-      <th style="cursor: pointer; cursor: hand;"><a> Amount </a></th>
-    </tr>
-  </thead>
+<ul class="nav nav-tabs">
+  <li><a href="#home" data-toggle="tab">Actions</a></li>
+  <li><a href="#lobbyists" data-toggle="tab">Lobbyists</a></li>
+  <li><a href="#clients" data-toggle="tab">Clients</a></li>
+</ul>
 
-  <tbody>
-    <% @firm.actions.uniq.sort_by { |action| -action.payment }.each do |action| %>
+<div class="tab-content">
+  <div class="tab-pane active" id="home">
+
+    <table class="firmTable" border="1">
+      <thead>
         <tr>
-          <td valign="top"> <% action.lobbyists.each do |lobbyist| %>
-            <%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %> <br>
-            <%end%></td>
-          <td valign="top"> <% action.agencies.each do |agency| %>
-            <%= link_to agency.name, agency_path(agency.slug) %> <br>
-          <% end %></td>
-          <td valign="top"><%= link_to action.client.name, client_path(action.client.slug) %></td>
-          <td valign="top">$<%= action.payment %></td>
+          <th style="cursor: pointer; cursor: hand;"><a>Lobbyist</a></th>
+          <th style="cursor: pointer; cursor: hand;"><a>Agency</a></th>
+          <th style="cursor: pointer; cursor: hand;"><a>Client</a></th>
+          <th style="cursor: pointer; cursor: hand;"><a> Amount </a></th>
         </tr>
-    <% end %>
-  </tbody>
-</table>
+      </thead>
 
-<br>
-<br>
-<br>
+      <tbody>
+        <% @firm.actions.uniq.sort_by { |action| -action.payment }.each do |action| %>
+            <tr>
+              <td valign="top"> <% action.lobbyists.each do |lobbyist| %>
+                <%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %> <br>
+                <%end%></td>
+              <td valign="top"> <% action.agencies.each do |agency| %>
+                <%= link_to agency.name, agency_path(agency.slug) %> <br>
+              <% end %></td>
+              <td valign="top"><%= link_to action.client.name, client_path(action.client.slug) %></td>
+              <td valign="top">$<%= action.payment %></td>
+            </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-<table class="firmTable" border="1">
-  <thead>
-    <tr>
-      <th style="cursor: pointer; cursor: hand;"><a>Lobbyist</a></th>
-      <th style="cursor: pointer; cursor: hand;"><a>Individual Payment</a></th>
-      <th style="cursor: pointer; cursor: hand;"><a>Payment from Group Efforts</a></th>
-    </tr>
-  </thead>
+  <div class="tab-pane" id="lobbyists">
+    <table class="firmTable" border="1">
+      <thead>
+        <tr>
+          <th style="cursor: pointer; cursor: hand;"><a>Lobbyist</a></th>
+          <th style="cursor: pointer; cursor: hand;"><a>Individual Payment</a></th>
+          <th style="cursor: pointer; cursor: hand;"><a>Payment from Group Efforts</a></th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <% @firm.lobbyists.sort_by_sum_payments.each do |lobbyist| %>
-      <tr>
-        <td valign="top"><%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %></td>
-        <td valign="top">$<%= lobbyist.my_payments %></td>
-        <td valign="top">$<%= lobbyist.team_payments %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tbody>
+        <% @firm.lobbyists.sort_by_sum_payments.each do |lobbyist| %>
+          <tr>
+            <td valign="top"><%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %></td>
+            <td valign="top">$<%= lobbyist.my_payments %></td>
+            <td valign="top">$<%= lobbyist.team_payments %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-<br>
-<br>
-<br>
+  
+  <div class="tab-pane" id="clients">
+    <table class="firmTable" border="1">
+      <thead>
+        <tr>
+          <th style="cursor: pointer; cursor: hand;"><a>Client</a></th>
+          <th style="cursor: pointer; cursor: hand;"><a>Billed</a></th>
+        </tr>
+      </thead>
 
-<table class="firmTable" border="1">
-  <thead>
-    <tr>
-      <th style="cursor: pointer; cursor: hand;"><a>Client</a></th>
-      <th style="cursor: pointer; cursor: hand;"><a>Billed</a></th>
-    </tr>
-  </thead>
+      <tbody>
+        <% @firm.find_clients_and_payments.sort_by { |k,v| -v}.each do |client,payment| %>
+          <tr>
+            <td valign="top"><%= link_to client, client_path(client.downcase.gsub('.','').gsub(' ','-')) %></td>
+            <td valign="top">$<%= payment %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-  <tbody>
-    <% @firm.find_clients_and_payments.sort_by { |k,v| -v}.each do |client,payment| %>
-      <tr>
-        <td valign="top"><%= link_to client, client_path(client.downcase.gsub('.','').gsub(' ','-')) %></td>
-        <td valign="top">$<%= payment %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+</div>
 
 

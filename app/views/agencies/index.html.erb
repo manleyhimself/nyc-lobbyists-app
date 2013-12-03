@@ -1,24 +1,22 @@
 <h1>Listing agencies</h1>
 
-<table>
+<table border='1' class="agentTable">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Address</th>
-      <th>Description</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th style="cursor: pointer; cursor: hand;"> <a>Name </a></th>
+      <th style="cursor: pointer; cursor: hand;"> <a>Actions Sought</a></th>
+      <th style="cursor: pointer; cursor: hand;"> <a>Actions Expenditure (Only Target)</a></th>
+      <th style="cursor: pointer; cursor: hand;"> <a>Actions Expenditure (Multiple Targets)</a></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @agencies.each do |agency| %>
+    <% @agencies.sort_by_sum_payments.each do |agency| %>
       <tr>
-        <td><%= agency.name %></td>
-        <td><%= agency.address %></td>
-        <td><%= agency.description %></td>
-        <td><%= link_to 'Show', agency_path(agency.slug) %></td>
+        <td><%= link_to agency.name, agency_path(agency.slug) %></td>
+        <td><%= agency.actions.length %></td>
+        <td>$<%= agency.solo_payments %></td>
+        <td>$<%= agency.group_payments %></td>
       </tr>
     <% end %>
   </tbody>
