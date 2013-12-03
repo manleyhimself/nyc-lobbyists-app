@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131202181828) do
+ActiveRecord::Schema.define(version: 20131203150442) do
 
   create_table "actions", force: true do |t|
     t.string   "purpose"
@@ -22,6 +22,9 @@ ActiveRecord::Schema.define(version: 20131202181828) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "actions", ["client_id"], name: "index_actions_on_client_id"
+  add_index "actions", ["payment"], name: "index_actions_on_payment"
 
   create_table "agencies", force: true do |t|
     t.string   "name"
@@ -50,6 +53,8 @@ ActiveRecord::Schema.define(version: 20131202181828) do
     t.integer  "all_payments"
   end
 
+  add_index "clients", ["all_payments"], name: "index_clients_on_all_payments"
+
   create_table "firms", force: true do |t|
     t.string   "name"
     t.text     "address"
@@ -58,6 +63,8 @@ ActiveRecord::Schema.define(version: 20131202181828) do
     t.string   "slug"
     t.integer  "all_payments"
   end
+
+  add_index "firms", ["all_payments"], name: "index_firms_on_all_payments"
 
   create_table "lobbyist_actions", force: true do |t|
     t.integer  "action_id"
@@ -78,5 +85,9 @@ ActiveRecord::Schema.define(version: 20131202181828) do
     t.integer  "my_payments",   default: 0
     t.integer  "team_payments", default: 0
   end
+
+  add_index "lobbyists", ["firm_id"], name: "index_lobbyists_on_firm_id"
+  add_index "lobbyists", ["my_payments"], name: "index_lobbyists_on_my_payments"
+  add_index "lobbyists", ["team_payments"], name: "index_lobbyists_on_team_payments"
 
 end
