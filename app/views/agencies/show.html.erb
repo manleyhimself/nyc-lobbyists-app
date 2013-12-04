@@ -16,7 +16,7 @@
 </p>
 
 
-<h2> 2012 Total Spent by Lobbyists to Lobby this Agency: </h2> 
+<h2> 2012 Total Paid to Lobbyists to Lobby this Agency: </h2> 
 <h3> $<%= @agency.sum_payments %> </h3>
 
 <h2> Lobbyist Actions: </h2>
@@ -35,7 +35,7 @@
 
 
 
-<table border='1' class="agentTable">
+<table border='1' class="table table-striped table-bordered table-condensed agentTable">
   <thead>
     <tr>
       <th style="cursor: pointer; cursor: hand;"> <a>Lobbyists</a></th>
@@ -51,7 +51,7 @@
             <%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %> <br>
             <%end%>
         </td>
-        <td valign="top"> <%= link_to action.client.name, client_path(action.client.slug) %> </td>
+        <td valign="top"> <%= link_to action.client.name, client_path(action.client(action.client.slug)) %> </td>
         <td valign="top">$<%= action.payment %></td>
       </tr>
     <% end %>

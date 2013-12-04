@@ -1,26 +1,29 @@
 <h1>Listing firms</h1>
+<div class="bs-docs-section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="bs-example table-responsive firmTable tablesorter">
+        <table class="table table-striped table-bordered table-hover clientTable tablesorter">
+        <thead>
+          <tr>
+            <th style="cursor: pointer; cursor: hand;"> <a> Name </a> </th>
+            <th style="cursor: pointer; cursor: hand;"><a id="payments"> Amount Billed </a></th> 
+          </tr>
+        </thead>
 
-<table class="firmTable tablesorter">
-  <thead>
-    <tr>
-      <th style="cursor: pointer; cursor: hand;"> <a> Name </a> </th>
-      <th style="cursor: pointer; cursor: hand;"><a id="payments"> Amount Billed </a></th> 
-      <th></th>
-      <th></th> 
-      <th></th>
-    </tr>
-  </thead>
+        <tbody>
+          <% @firms.sort_by_firm_payments.each do |firm| %>
+            <tr>
+              <td><%= link_to firm.name , firm_path(firm.slug) %></td>
+              <td>$<%= firm.all_payments %></td>
+            </tr>
+          <% end %>
+        </tbody>
 
-  <tbody>
-    <% @firms.sort_by_firm_payments.each do |firm| %>
-      <tr>
-        <td><%= link_to firm.name , firm_path(firm.slug) %></td>
-        <td>$<%= firm.all_payments %></td>
-      </tr>
-    <% end %>
-  </tbody>
-
-</table>
-
+      </table>
+      </div>
+    </div>
+  </div>
+</div>
 <br>
 

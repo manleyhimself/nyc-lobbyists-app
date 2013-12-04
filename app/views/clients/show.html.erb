@@ -27,7 +27,7 @@
 
 <div class="tab-content">
   <div class="tab-pane active" id="home">
-    <table class="clientTable" border='1'>
+    <table class="table table-striped table-bordered table-condensed clientTable" border='1'>
       <thead>
         <tr>
           <th style="cursor: pointer; cursor: hand;"> <a> Lobbyist </a> </th>
@@ -43,7 +43,7 @@
               <%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %> <br>
             <%end%> </td> 
             <td valign="top"> <% action.agencies.each do |agency| %>
-              <%= link_to agency.name, lobbyist_path(agency.slug) %> <br>
+              <%= link_to agency.name, agency_path(agency.slug) %> <br>
             <%end%> </td>
             <td valign="top">$<%= action.payment %></td>
           </tr>
@@ -53,7 +53,7 @@
   </div>
 
   <div class="tab-pane" id="lobbyists">
-    <table class="clientTable" border='1'>
+    <table class="table table-striped table-bordered table-condensed clientTable" border='1'>
       <thead>
         <tr>
           <th style="cursor: pointer; cursor: hand;"> <a> Lobbyist </a> </th>
