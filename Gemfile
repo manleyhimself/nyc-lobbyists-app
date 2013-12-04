@@ -24,6 +24,9 @@ gem 'jquery-tablesorter'
 
 gem 'anjlab-bootstrap-rails', '~> 3.0.2.0', :require => 'bootstrap-rails'
 
+gem "nokogiri", "~> 1.6.0"
+
+gem "rest-open-uri", "~> 1.0.0"
 
 gem 'faker'
 
@@ -70,7 +73,9 @@ end
 
 =begin
 on directory page of lobbyist firms
-scrape each row,get the href, append "http://www.nyc.gov/lobbyistsearch/" to the beginning and "&op=&pg_l=1" to the end
+scrape each row,get the href, append "http://www.nyc.gov/lobbyistsearch/" to the beginning
+
+uri_strings =  array containing each url we got above
 
 open each href scraped above
 
@@ -80,7 +85,7 @@ pages = "how many pages returned from search"
 
 pages.times do |n|
   break if done
-  open-uri get page "url_string#{n}"
+  open-uri get page url_strings[n] << "&op=&pg_l=#{n+1}"
 
   parse rows
   for each row

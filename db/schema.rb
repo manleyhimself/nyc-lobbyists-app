@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131203200047) do
+ActiveRecord::Schema.define(version: 20131204170643) do
 
   create_table "actions", force: true do |t|
     t.string   "purpose"
@@ -94,5 +94,10 @@ ActiveRecord::Schema.define(version: 20131203200047) do
   add_index "lobbyists", ["firm_id"], name: "index_lobbyists_on_firm_id"
   add_index "lobbyists", ["my_payments"], name: "index_lobbyists_on_my_payments"
   add_index "lobbyists", ["team_payments"], name: "index_lobbyists_on_team_payments"
+
+  create_table "scrapers", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
