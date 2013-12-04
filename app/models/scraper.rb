@@ -1,5 +1,9 @@
 require 'open-uri'
 
+#http://stackoverflow.com/questions/242602/how-do-i-make-a-post-request-with-open-uri 
+# --use rest open uri to make a post request on this page: http://www.nyc.gov/lobbyistsearch/directory.jsp
+# because nyc.go/lobbyistwhatever sucks
+
 class Scraper < ActiveRecord::Base
 
 
