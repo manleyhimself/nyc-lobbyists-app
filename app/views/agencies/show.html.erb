@@ -30,7 +30,7 @@
       <li class="list-group-item">
         <span class="badge">  
         <% @agency.lobbying_firms.each do |firm|%>
-        <%= firm.name %>;
+        <%= link_to firm.name, firm_path(firm.slug) %>;
         <% end %>
         </span>
         Lobbying Firms:
