@@ -1,3 +1,22 @@
+#chart {
+    width: 50%;
+    margin: 0;
+    padding: 0;
+}
+
+#chart div {
+    padding: 5px;
+    margin: 0 0 2px 0;
+    color: white;
+    background: rgb(44,62,82);
+}
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
 a {
   color: #000;
   text-decoration: underline !important;
@@ -22,4 +41,8 @@ a {
 
 .col-sm-6 a:hover {
   text-decoration: underline !important;
+}
+
+th {
+  background-color: white;
 }

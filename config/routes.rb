@@ -16,7 +16,8 @@ NycLobbyistsApp::Application.routes.draw do
 
   get '/agencies/:id', to: 'agencies#show', as: 'agency'
 
-  root 'application#root'
+  #root 'application#root'
+  root :to => 'lobbyists#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -6,30 +6,56 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="bs-example table-responsive">
-        <table class="table table-striped table-bordered table-hover agentTable">
-          <thead>
-            <tr>
-              <th style="cursor: pointer; cursor: hand;"> <a>Name </a></th>
-              <th style="cursor: pointer; cursor: hand;"> <a>Actions Sought</a></th>
-              <th style="cursor: pointer; cursor: hand;"> <a>Actions Expenditure (Only Target)</a></th>
-              <th style="cursor: pointer; cursor: hand;"> <a>Actions Expenditure (Multiple Targets)</a></th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <% @agencies.sort_by_sum_payments.each do |agency| %>
+        <div id="chart">
+          <table class="table table-striped table-bordered table-hover agentTable">
+            <thead>
               <tr>
-                <td><%= link_to agency.name, agency_path(agency.slug) %></td>
-                <td><%= agency.actions.length %></td>
-                <td>$<%= agency.solo_payments %></td>
-                <td>$<%= agency.group_payments %></td>
+                <th style="cursor: pointer; cursor: hand;"> <a>Name </a></th>
+                <th style="cursor: pointer; cursor: hand;"> <a>Actions Sought</a></th>
+                <th style="cursor: pointer; cursor: hand;"> <a>Actions Expenditure (Only Target)</a></th>
+                <th style="cursor: pointer; cursor: hand;"> <a>Actions Expenditure (Multiple Targets)</a></th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
+            </thead>
+              <tbody>
+                <% @agencies.sort_by_sum_payments.each do |agency| %>
+                  <tr>
+                    <td><%= link_to agency.name, agency_path(agency.slug) %></td>
+                    <td><%= agency.actions.length %></td>
+                    <td>
+                    <div>
+                      $<span class="contribution"><%= agency.solo_payments %></span>
+                    </div></td>
+                    <td>$<%= agency.group_payments %></td>
+                  </tr>
+                <% end %>
+              
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </div>
 <br>
+
+
+<div id="chart2">
+  <table class="table table-striped table-bordered table-hover agentTable"> 
+    <thead>
+      <tr>
+        <th>lulu is pretty (and vivian to0) (and brendan kind of)            
+        </th>
+      <tr> 
+    </thead> 
+    <tbody> 
+      <tr><td> lulu is pretty (and vivian to0) (and brendan kind of)</td></tr>
+      <tr><td> <div >$<span class="contribution">1234</span></div> </td></tr>
+      <tr><td> <div >$<span class="contribution">999</span></div> </td></tr>
+      <tr><td> <div >$<span class="contribution">244</span></div> </td></tr>
+      <tr><td> <div >$<span class="contribution">345</span></div> </td></tr>
+      <tr><td> <div >$<span class="contribution">50</span></div> </td></tr>
+      <tr><td> hey people </td></tr>
+    </tbody> 
+  </table>
+</div>
 
