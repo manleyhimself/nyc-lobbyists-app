@@ -8,15 +8,15 @@
 
 
 10.times do
-  Client.create(:name => Faker::Name.name)
+  Client.create(:name => Faker::Name.name, address: '11 Broadway, New York, NY 10304')
 end
 
 10.times do
-  Agency.create(:name => Faker::Name.name)
+  Agency.create(:name => Faker::Name.name, description: 'this agency is critical')
 end
 
 5.times do
-  Firm.create(:name => Faker::Name.name)
+  Firm.create(:name => Faker::Name.name, address: '11 Broadway, New York, NY 10304')
 end
 
 10.times do |x| 
@@ -41,11 +41,11 @@ end
 
 150.times do |x|
   increment = (x == 150 ? 0 : 1)
-  Action.create(client_id: (x/15.round+ increment), payment: rand(100..5000))
+  Action.create(client_id: (x/15.round+ increment), payment: rand(100..5000), purpose: 'administrative',begin_date: '2013-01-01', end_date: '2013-12-04')
 end
 
 100.times do 
-  Action.create(client_id: (rand(1..10)), payment: rand(100..5000))
+  Action.create(client_id: (rand(1..10)), payment: rand(100..5000), purpose: 'legal',begin_date: '2013-01-01', end_date: '2013-12-04')
 end
 
 250.times do |x|

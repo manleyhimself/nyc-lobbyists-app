@@ -1,60 +1,76 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @agency.name %>
-</p>
+  <div class='col-md-4 col-md-offset-2'>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+           <%= @agency.name %> (agency)
+        </h3>
+      </div>
+      <div class="panel-body">
+           <%= @agency.description %><br>
+      </div>
+    </div>
+  </div>    
 
-<p>
-  <strong>Address:</strong>
-  <%= @agency.address %>
-</p>
+  <div class="col-sm-6 col-sm-offset-2">
+      <ul class="list-group">
+      <li class="list-group-item">
+        <span class="badge">$<%= @agency.sum_payments %> </span>
+        2012 Total Paid to Lobbyists to Lobby this Agency:
+      </li>
+      <li class="list-group-item">
+        <span class="badge"><%= @agency.actions.uniq.length %> </span>
+        Lobbyist Actions:
+      </li>
+      <li class="list-group-item">
+        <span class="badge"><%= @agency.lobbyists.uniq.length %></span>
+        Lobbyists: 
+      </li>
+      <li class="list-group-item">
+        <span class="badge">  
+        <% @agency.lobbying_firms.each do |firm|%>
+        <%= firm.name %>;
+        <% end %>
+        </span>
+        Lobbying Firms:
+      </li>
+      <li class="list-group-item">
+        <span class="badge"><%= @agency.find_clients_and_payments.keys.length %></span>
+        Organizations That Lobbied this Agency : 
+      </li>
+    </ul>
+  </div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @agency.description %>
-</p>
 
+  <div class='col-md-8 col-md-offset-2'>
+    <table border='1' class="table table-striped table-bordered table-condensed agentTable">
+      <thead>
+        <tr>
+          <th style="cursor: pointer; cursor: hand;"> <a>Purpose</a></th>
+          <th style="cursor: pointer; cursor: hand;"> <a>Lobbyists</a></th>
+          <th style="cursor: pointer; cursor: hand;"> <a>Clients</a></th>
+          <th style="cursor: pointer; cursor: hand;"> <a>Amount</a></th>
+          <th style="cursor: pointer; cursor: hand;"> <a>Begin Date</a></th>
+          <th style="cursor: pointer; cursor: hand;"> <a>End Date</a></th>
+        </tr>
+      </thead>
 
-<h2> 2012 Total Paid to Lobbyists to Lobby this Agency: </h2> 
-<h3> $<%= @agency.sum_payments %> </h3>
-
-<h2> Lobbyist Actions: </h2>
-<h3> <%= @agency.actions.uniq.length %> </h3>
-
-<h2> Lobbyists: </h2>
-<h3> <%= @agency.lobbyists.uniq.length %> </h3>
-
-<h2> Lobbying Firms: </h2>
-  <% @agency.lobbying_firms.each do |firm|%>
-    <h3> <%= firm.name %> </h3>
-  <% end %>
-
-<h2> Organizations That Lobbied this Agency : </h2>
-<h3> <%= @agency.find_clients_and_payments.keys.length %> </h3>
-
-
-
-<table border='1' class="table table-striped table-bordered table-condensed agentTable">
-  <thead>
-    <tr>
-      <th style="cursor: pointer; cursor: hand;"> <a>Lobbyists</a></th>
-      <th style="cursor: pointer; cursor: hand;"> <a>Clients</a></th>
-      <th style="cursor: pointer; cursor: hand;"> <a>Amount</a></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @agency.actions.sort_by { |action| -action.payment }.each do |action| %>
-      <tr>
-        <td valign="top"> <% action.lobbyists.each do |lobbyist| %>
-            <%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %> <br>
-            <%end%>
-        </td>
-        <td valign="top"> <%= link_to action.client.name, client_path(action.client(action.client.slug)) %> </td>
-        <td valign="top">$<%= action.payment %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
+      <tbody>
+        <% @agency.actions.sort_by { |action| -action.payment }.each do |action| %>
+          <tr>
+            <td><%= action.purpose %></td>
+            <td valign="top"> <% action.lobbyists.each do |lobbyist| %>
+                <%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %> <br>
+                <%end%>
+            </td>
+            <td valign="top"> <%= link_to action.client.name, client_path(action.client.slug) %> </td>
+            <td valign="top">$<%= action.payment %></td>
+            <td><%= action.begin_date %></td>
+            <td><%= action.end_date %></td>
+            
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>

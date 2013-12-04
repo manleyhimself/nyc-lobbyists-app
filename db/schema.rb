@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 20131203200047) do
     t.boolean  "admin"
     t.boolean  "legislative"
     t.integer  "payment"
+    t.date     "begin_date"
+    t.date     "end_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -28,7 +30,6 @@ ActiveRecord::Schema.define(version: 20131203200047) do
 
   create_table "agencies", force: true do |t|
     t.string   "name"
-    t.text     "address"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -50,6 +51,7 @@ ActiveRecord::Schema.define(version: 20131203200047) do
 
   create_table "clients", force: true do |t|
     t.string   "name"
+    t.text     "address"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "slug"
