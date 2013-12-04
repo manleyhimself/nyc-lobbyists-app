@@ -14,3 +14,12 @@ a {
 .navbar-fixed-top a {
   text-decoration: none !important;
 }
+
+.col-sm-6 a {
+  color: white !important;
+  text-decoration: none !important;
+}
+
+.col-sm-6 a:hover {
+  text-decoration: underline !important;
+}
