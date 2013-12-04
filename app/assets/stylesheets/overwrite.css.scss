@@ -1,0 +1,16 @@
+a {
+  color: #000;
+  text-decoration: underline !important;
+  &:visited {
+    color: none !important ;
+
+  }
+  &:hover {
+    color: #3ab79a !important;
+    background-color: rgba(0,0,0,0) !important;
+  }
+}
+
+.navbar-fixed-top a {
+  text-decoration: none !important;
+}
