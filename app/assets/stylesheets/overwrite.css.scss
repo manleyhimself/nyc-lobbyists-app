@@ -4,12 +4,20 @@
     padding: 0;
 }
 
-#chart div {
+#chart div.solo {
     padding: 5px;
     margin: 0 0 2px 0;
     color: white;
     background: rgb(44,62,82);
 }
+
+#chart div.group {
+    padding: 5px;
+    margin: 0 0 2px 0;
+    color: white;
+    background: rgb(44,62,82);
+}
+
 
 * {
     box-sizing: border-box;
@@ -43,6 +51,3 @@ a {
   text-decoration: underline !important;
 }
 
-th {
-  background-color: white;
-}
