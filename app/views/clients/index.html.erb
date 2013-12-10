@@ -1,16 +1,17 @@
 <h1 style="text-align:center;">Clients</h1>
 <br>
 <br>
-<br>
 <div class="bs-docs-section">
   <div class="row">
-    <div class="col-lg-12">
-      <div class="bs-example table-responsive">
-        <table class="table table-striped table-bordered table-hover clientTable tablesorter"style="text-align:center;">
+    <div class="col-lg-12 col-lg-offset-3">
+      <div class="bs-example table-responsive clientTable">
+        <div id="chart">
+
+        <table class="table table-striped table-bordered table-hover clientTable tablesorter">
           <thead>
             <tr>
-              <th style="cursor: pointer; cursor: hand; text-align:center"> <a> Name </a> </th>
-              <th style="cursor: pointer; cursor: hand; text-align:center"><a id="payments"> Amount Paid </a></th>
+              <th style="cursor: pointer; cursor: hand;"> <a> Name </a> </th>
+              <th style="cursor: pointer; cursor: hand;"><a id="payments"> Amount Paid </a></th>
             </tr>
           </thead>
 
@@ -18,11 +19,15 @@
             <% @clients.sort_by_client_payments.each do |client| %>
               <tr>
                 <td><%= link_to client.name, client_path(client.slug) %></td>
-                <td>$<%= client.all_payments %></td>
+                <td>
+                <div class="solo">
+                  $<span class="contribution"><%= client.all_payments %></span>
+                </div></td>
               </tr>
             <% end %>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </div>

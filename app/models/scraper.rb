@@ -1,53 +1,53 @@
-require 'open-uri'
-
+require "open-uri"
 #http://stackoverflow.com/questions/242602/how-do-i-make-a-post-request-with-open-uri 
 # --use rest open uri to make a post request on this page: http://www.nyc.gov/lobbyistsearch/directory.jsp
 # because nyc.go/lobbyistwhatever sucks
 
 class Scraper < ActiveRecord::Base
 
-
-  def get_index
-    #response = rest-open-uri.post(index_url)
-    #html = Nokogiri::HTML(response)
-    Nokogiri::HTML(open(main_index_url)) 
+  def submit_form
+    url = "http://www.nyc.gov/lobbyistsearch/directory.jsp"
+    agent = Mechanize.new
+    page = agent.get(url)
+    form = agent.page.forms.first
+    year = form.field_with(:name => 'year_select').options[1].click
+    view = form.field_with(:name => 'view_select').options[2].click
+    form.submit
   end
 
-  def call
-    student_data = get_index
-    links_array = student_data.css("div.big-comment h3 a").collect do |link|
-      "http://students.flatironschool.com/#{link.attr("href")}"
+  def collect_lobbyist_org_links
+    submit_form.search("td tr a.backtolist").map do |link|
+      "http://www.nyc.gov/lobbyistsearch/#{link.attr("href")}"
     end
+  end
 
-    student_pages = links_array.collect do |link|
+ 
+  def lobbyist_org_first_pages
+    collect_lobbyist_org_links.map do |link|
+      puts "#{link}"
       begin
         Nokogiri::HTML(open(link))
       rescue OpenURI::HTTPError => error # if it don't
         if error.message == "404 Not Found"
-          Nokogiri::HTML("http://students.flatironschool.com/#")
+          #empty for now
         else
           raise error
         end
       end
     end.compact
+  end
 
-    students_array = []
-
-    student_pages.each_with_index do |student_page, i|
-      social_array = student_page.css("div.social-icons a").collect do |social_link|
-        social_link.attr("href")
+  def collect_page_numbers
+    numbers = lobbyist_org_first_pages.each do |page|
+      page.css("tr td").map do |td|
+        next if (td['colspan'] != 8)
       end
-
-      students_array[i] = {:student_id => i+1,
-        :name => student_page.css("div.page-title h4").text, 
-        :twitter_url => social_array[0],
-        :linkedin_url => social_array[1],
-        :facebook_url => social_array[3],
-        :website_url => links_array[i]
-      }
     end
-    students_array
-  end 
+    binding.pry
+  end
+
+
+
 
  
 

@@ -1,0 +1,53 @@
+#chart {
+    width: 50%;
+    margin: 0;
+    padding: 0;
+}
+
+#chart div.solo {
+    padding: 5px;
+    margin: 0 0 2px 0;
+    color: white;
+    background: rgb(44,62,82);
+}
+
+#chart div.group {
+    padding: 5px;
+    margin: 0 0 2px 0;
+    color: white;
+    background: rgb(44,62,82);
+}
+
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+a {
+  color: #000;
+  text-decoration: underline !important;
+  &:visited {
+    color: none !important ;
+
+  }
+  &:hover {
+    color: #3ab79a !important;
+    background-color: rgba(0,0,0,0) !important;
+  }
+}
+
+.navbar-fixed-top a {
+  text-decoration: none !important;
+}
+
+.col-sm-6 a {
+  color: white !important;
+  text-decoration: none !important;
+}
+
+.col-sm-6 a:hover {
+  text-decoration: underline !important;
+}
+

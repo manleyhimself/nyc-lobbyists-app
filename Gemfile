@@ -26,7 +26,7 @@ gem 'anjlab-bootstrap-rails', '~> 3.0.2.0', :require => 'bootstrap-rails'
 
 gem "nokogiri", "~> 1.6.0"
 
-gem "rest-open-uri", "~> 1.0.0"
+gem "mechanize", "~> 2.6.0"
 
 gem 'faker'
 
@@ -52,6 +52,10 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+group :production do
+  gem 'pg'
+  gem 'rails_12factor'
+end
 
 group :test, :development do
   gem 'sqlite3'
@@ -72,10 +76,9 @@ end
 
 
 =begin
-on directory page of lobbyist firms
-scrape each row,get the href, append "http://www.nyc.gov/lobbyistsearch/" to the beginning
-
-uri_strings =  array containing each url we got above
+ok on directory page of lobbyist firms
+ok scrape each row,get the href, append "http://www.nyc.gov/lobbyistsearch/" to the beginning
+ok uri_strings =  array containing each url we got above
 
 open each href scraped above
 
