@@ -37,14 +37,14 @@ class Scraper < ActiveRecord::Base
     end.compact
   end
 
-  def collect_page_numbers
-    numbers = lobbyist_org_first_pages.each do |page|
-      page.css("tr td").map do |td|
-        next if (td['colspan'] != 8)
-      end
-    end
-    binding.pry
-  end
+  # def collect_page_numbers
+  #   numbers = lobbyist_org_first_pages.each do |page|
+  #     page.css("tr td").map do |td|
+  #       next if (td['colspan'] != 8)
+  #     end
+  #   end
+  #   binding.pry
+  # end
 
 
 
