@@ -5,6 +5,10 @@ require "open-uri"
 
 class Scraper < ActiveRecord::Base
 
+  @@client_and_lobbyist_arr = []
+  @@client_address_arr = []
+
+
   def submit_form
     url = "http://www.nyc.gov/lobbyistsearch/directory.jsp"
     agent = Mechanize.new
@@ -40,17 +44,17 @@ class Scraper < ActiveRecord::Base
       end
     end
     # end.compact -uncomment once map is put back in
-    # parse_pages(arr, collect_lobbyist_org_links) -uncomment
-    arr
+    parse_pages(arr, collect_lobbyist_org_links) 
   end
 
   def parse_pages(array_before_parse, links_array)
     array_before_parse.each_with_index do |noko_obj, index|
+      puts "page: #{index + 1}"
       table_rows = return_nokogiri_table_rows(noko_obj)
       clients_and_lobbyists = return_nokogiri_clients_lobbyists(noko_obj) 
-      client_address = return_nokogiri_client_address
-      ClientAndLobbyists = client_lobbyists_to_text(clients_and_lobbyists)
-      ClientAddress = rows_to_text(client_address)
+      client_address = return_nokogiri_client_address(noko_obj)
+      @@client_and_lobbyist_arr = client_lobbyists_to_text(clients_and_lobbyists)
+      @@client_address_arr = rows_to_text(client_address)
       collect_info_from_table_and_pages(rows_to_text(table_rows), links_array, index)
     end
   end
@@ -77,28 +81,28 @@ class Scraper < ActiveRecord::Base
 
   def find_or_create_action_clients_and_lobbyists_helper(firm_id, begin_date, end_date, purpose, payment, action_id) #inc
     action_specific_client_lobbyists = []
-    ClientAndLobbyists.each do |client_or_lobbyist|
+    @@client_and_lobbyist_arr.each do |client_or_lobbyist|
       break if client_or_lobbyist == nil
       action_specific_client_lobbyists << client_or_lobbyist.downcase
     end
-    ClientAndLobbyists = ClientAndLobbyists[((ClientAndLobbyists.index(nil)) + 2)..-1]
+    @@client_and_lobbyist_arr = @@client_and_lobbyist_arr[((@@client_and_lobbyist_arr.index(nil)) + 2)..-1]
     create_action(purpose, payment, begin_date, end_date, (create_client(action_specific_client_lobbyists)))
     create_lobbyists(action_specific_client_lobbyists, action_id, firm_id)
   end
 
   def create_action(purpose,payment, begin_date, end_date, client_id)
-    Action.create(pupose: purpose, payment: payment, begin_date: begin_date, end_date: end_date, client_id: client_id)
+    Action.create(purpose: purpose, payment: payment, begin_date: begin_date, end_date: end_date, client_id: client_id)
   end
 
   def create_client(action_specific_client_lobbyists_arr)  #inc
-    curr_client = Client.where(name: action_specific_client_lobbyists_arr[0], address: ClientAddress[0]).first_or_create
-    ClientAddress.shift
-    ClientAddress.shift
+    curr_client = Client.where(name: action_specific_client_lobbyists_arr[0], address: @@client_address_arr[0]).first_or_create
+    @@client_address_arr.shift
+    @@client_address_arr.shift
     curr_client.id
   end
 
   def create_lobbyists(action_specific_client_lobbyists_arr, action_id, firm_id)
-    lobbyists_arr = lobbyists.map do |lobbyist|
+    lobbyists_arr = action_specific_client_lobbyists_arr.map do |lobbyist|
       Lobbyist.where(name: lobbyist, firm_id: firm_id).first_or_create
     end
     lobbyists_arr.each do |lobbyist|
@@ -107,7 +111,7 @@ class Scraper < ActiveRecord::Base
   end
 
   def create_agencies(agency_purpose_payment_arr, action_id)
-    agencies_arr = agencies.map do |agency|
+    agencies_arr = agency_purpose_payment_arr.map do |agency|
       Agency.where(name: agency).first_or_create
     end
     agencies_arr.each do |agency|
@@ -168,12 +172,12 @@ class Scraper < ActiveRecord::Base
   end
 
   def collect_info_from_table_and_pages(big_arr, links_array, links_array_index)
+    element_index = 16
+    page_iteration_num = 1
+    curr_page_num = 1
     if big_arr.last.include?("Page")
       pages = (big_arr.last.split("1\n")[0].split("of ")[1].strip.to_i) * 15
 
-      element_index = 16
-      page_iteration_num = 1
-      curr_page_num = 1
       pages.times do |action_id|
         if page_iteration_num == 16
           element_index = 16
@@ -184,12 +188,14 @@ class Scraper < ActiveRecord::Base
 
           big_arr = rows_to_text(return_nokogiri_table_rows(page))
 
-          ClientAndLobbyists = client_lobbyists_to_text(return_nokogiri_clients_lobbyists(page))
+          @@client_and_lobbyist_arr = client_lobbyists_to_text(return_nokogiri_clients_lobbyists(page))
 
-          ClientAddress = rows_to_text(return_nokogiri_client_address(page))
+          @@client_address_arr = rows_to_text(return_nokogiri_client_address(page))
            
         end
         break if big_arr[element_index] != big_arr[16] #switch to levensthein on header, first element may not be right
+
+          puts "row: #{action_id + 1}"
          
           curr_firm = Firm.where(name: big_arr[element_index].downcase, address: big_arr[element_index + 1]).first_or_create
 
@@ -197,13 +203,27 @@ class Scraper < ActiveRecord::Base
 
           create_agencies(agency_purpose_payment_arr[0], action_id)
 
-          find_or_create_action_clients_and_lobbyists(curr_firm.id, big_arr[element_index + 4], big_arr[element_index + 5], agency_purpose_payment_arr[1], agency_purpose_payment_arr[2], (action_id + 1))
+          find_or_create_action_clients_and_lobbyists_helper(curr_firm.id, big_arr[element_index + 4], big_arr[element_index + 5], agency_purpose_payment_arr[1], agency_purpose_payment_arr[2], (action_id + 1))
 
         element_index += 8
         page_iteration_num += 1
       end
     else
-      #what if the lobbyist org doesn't have multiple pages
+      big_arr.length.times do |action_id|
+        break if big_arr[element_index] != big_arr[16] #switch to levensthein on header, first element may not be right
+
+          puts "row: #{action_id + 1}"
+
+          curr_firm = Firm.where(name: big_arr[element_index].downcase, address: big_arr[element_index + 1]).first_or_create
+
+          agency_purpose_payment_arr = parse_agency_purpose_payment(big_arr[element_index + 7])
+
+          create_agencies(agency_purpose_payment_arr[0], action_id)
+
+          find_or_create_action_clients_and_lobbyists_helper(curr_firm.id, big_arr[element_index + 4], big_arr[element_index + 5], agency_purpose_payment_arr[1], agency_purpose_payment_arr[2], (action_id + 1))
+
+        element_index += 8
+      end
     end
   end
 

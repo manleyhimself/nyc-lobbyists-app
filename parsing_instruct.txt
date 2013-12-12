@@ -1,0 +1,89 @@
+2.0.0-p353 :416 > y.each_with_index do |x,i|
+2.0.0-p353 :417 >     puts "#{i}: #{x}"
+2.0.0-p353 :418?>   end
+________________________
+
+*for everything else
+a.last.xpath('/html/body/table/tr/td/table[3]/tr[4]/td[2]/table/tr/td') ** separates row elements
+
+
+
+*for client name and additional lobbyists"
+
+2.0.0p353 :124 > a.first.css("td a").map do |x|
+2.0.0p353 :125 >     if x.attr("href").include?("search?")
+2.0.0p353 :126?>     x.text
+2.0.0p353 :127?>     end
+2.0.0p353 :128?>   end
+
+
+
+*for client address:
+
+2.0.0p353 :236 > a[2].css("span.table_text").map do |x|
+2.0.0p353 :237 >     x.text
+2.0.0p353 :238?>   end
+
+returns an array where everyother element is an empty string
+to parse:
+i = the array the above 'map' returns
+2.0.0p353 :242 > i.each_with_index do |x, i|
+2.0.0p353 :243 >     next if x == ""
+2.0.0p353 :244?>   puts "#{i}: #{x}"
+2.0.0p353 :245?>   end
+
+
+
+
+parsing out subject, agencies and totals:
+
+initial string --
+b[111] represents the last element of a row (119 will be the next last element)
+2.0.0-p353 :133 > b[111].split("Subject: ")
+
+ => ["\r\n            writeViewButton(\"details_lobbyist_12\");\r\n\t\t\t\t\r\n              \r\n            Target: Comptroller's Office", ": Pension Funds and Retirement Systems\r\n\t\t\t      Compensation\r\n\t\t\t      Reimbursement\r\n\t\t\t    P1\r\n\t\t\t      \r\n\t\t\t      $15.94 \r\n\t\t\t      \r\n\t\t\t      $0.00 \r\n\t\t\t      \r\n\t\t\t    P2\r\n\t\t\t      $15.94 \r\n\t\t\t      $0.00 \r\n\t\t\t    P3\r\n\t\t\t      $0.00 \r\n\t\t\t      $0.00 \r\n\t\t\t    P4\r\n\t\t\t      $95.63 \r\n\t\t\t      $0.00 \r\n\t\t\t    P5\r\n\t\t\t      $0.00 \r\n\t\t\t      $0.00 \r\n\t\t\t    P6\r\n\t\t\t      $0.00 \r\n\t\t\t      $0.00 \r\n\t\t\t    Total\r\n                $127.51\r\n                $0.00\r\n\t            \r\n            "] 
+
+n = _
+
+
+agencies --
+2.0.0-p353 :215 > n[0].split("Target: ")[1].strip.gsub("and","|").gsub(",","|").split("|").map do |x|
+2.0.0-p353 :216 >     x.downcase!
+2.0.0-p353 :217?>   x.strip
+2.0.0-p353 :218?>   end
+
+a = _
+after agencies returned map through array with this logic, to account for inconsistencies:
+
+a.map do |agency|
+  if agency.include?("mayor") || agency.include?("otm")
+    agency = "Office of the Mayor" 
+  elsif agency.include?("dohmh") || agency.include?("mental hygiene")
+    agency = "Department of Mental Hygiene" 
+  elsif agency.include?("dsny") || agency.include?("sanitation")
+    agency = "Department of Sanitation" 
+  elsif agency.include?("(dot)") || agency.include?("transportation") || agency == "dot"
+    agency = "Department of Transportation"
+  elsif agency.include?("nycedc") || agency.include?("economic development")
+    agency = "NYCEDC"
+  elsif agency == "department of"
+    agency = nil
+  elsif agency.include?("education")
+    agency = "Department of Education"
+  else
+    agency
+  end
+end.compact.uniq
+
+returns agencies: ["campaign finance board (cfb)", "nyc council members"] 
+ 
+
+subject --
+2.0.0-p353 :272 > c[1].split("P1")[0].gsub("\r", "").gsub("\n", "").gsub("\t", "").split("  ").map do |x|
+2.0.0-p353 :273 >     next if x == ""
+2.0.0-p353 :274?>   x
+2.0.0-p353 :275?>   end.compact.join(", ")
+
+total --
+c[1].split("P1")[1].split("Total")[1].gsub("\r", "").gsub("\n", "").gsub("\t", "").strip[1..-6].strip.to_f
+
