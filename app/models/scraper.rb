@@ -49,7 +49,7 @@ class Scraper < ActiveRecord::Base
 
   def parse_pages(array_before_parse, links_array)
     array_before_parse.each_with_index do |noko_obj, index|
-      puts "page: #{index + 1}"
+      puts "organization: #{index + 1}"
       table_rows = return_nokogiri_table_rows(noko_obj)
       clients_and_lobbyists = return_nokogiri_clients_lobbyists(noko_obj) 
       client_address = return_nokogiri_client_address(noko_obj)
@@ -196,8 +196,10 @@ class Scraper < ActiveRecord::Base
         break if big_arr[element_index] != big_arr[16] #switch to levensthein on header, first element may not be right
 
           puts "row: #{action_id + 1}"
+          puts "current page: #{curr_page_num}"
          
           curr_firm = Firm.where(name: big_arr[element_index].downcase, address: big_arr[element_index + 1]).first_or_create
+          
 
           agency_purpose_payment_arr = parse_agency_purpose_payment(big_arr[element_index + 7])
 
