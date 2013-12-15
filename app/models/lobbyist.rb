@@ -1,6 +1,6 @@
 class Lobbyist < ActiveRecord::Base
   include ModelInstanceMethods
-  belongs_to :firm
+  belongs_to :firm, touch: true
   has_many :lobbyist_actions
   has_many :actions, through: :lobbyist_actions
   has_many :clients, through: :actions

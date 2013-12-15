@@ -16,21 +16,9 @@
               </tr>
             </thead>
               <tbody>
-                <% @agencies.sort_by_sum_payments.each do |agency| %>
-                  <tr>
-                    <td><%= link_to agency.name, agency_path(agency.slug) %></td>
-                    <td><%= agency.actions.length %></td>
-                    <td>
-                    <div class="solo">
-                      $<span class="contribution"><%= agency.solo_payments %></span>
-                    </div></td>
-                    <td>
-                    <div class="group">
-                      $<span class="contribution"><%= agency.group_payments %></span>
-                    </div></td>
-                  </tr>
-                <% end %>
-              
+              <% cache Agency.new do %>
+                <%= render 'index_table' %>
+              <% end %>
             </tbody>
           </table>
         </div>

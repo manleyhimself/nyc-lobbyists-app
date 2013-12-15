@@ -1,0 +1,11 @@
+<% @clients.sort_by_client_payments.each do |client| %>
+  <% cache client do %>
+    <tr>
+      <td><%= link_to client.name, client_path(client.slug) %></td>
+      <td>
+      <div class="solo">
+        $<span class="contribution"><%= client.all_payments %></span>
+      </div></td>
+    </tr>
+  <% end %>
+<% end %>

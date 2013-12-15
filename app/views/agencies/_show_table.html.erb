@@ -1,0 +1,15 @@
+<% @agency.actions.sort_by { |action| -action.payment }.each do |action| %>
+  <% cache action do %> 
+    <tr>
+      <td><%= action.purpose %></td>
+      <td valign="top"> <% action.lobbyists.each do |lobbyist| %>
+          <%= link_to lobbyist.name, lobbyist_path(lobbyist.slug) %> <br>
+          <%end%>
+      </td>
+      <td valign="top"> <%= link_to action.client.name, client_path(action.client.slug) %> </td>
+      <td valign="top">$<%= action.payment %></td>
+      <td><%= action.begin_date %></td>
+      <td><%= action.end_date %></td>
+    </tr>
+  <% end %>
+<% end %>

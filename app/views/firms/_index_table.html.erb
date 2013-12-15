@@ -1,0 +1,11 @@
+<% @firms.sort_by_firm_payments.each do |firm| %>
+  <% cache firm do %>
+    <tr>
+      <td><%= link_to firm.name , firm_path(firm.slug) %></td>
+      <td>
+      <div class="solo">
+        $<span class="contribution"><%= firm.all_payments %></td></span>
+    </div></td>
+    </tr>
+  <% end %>
+<% end %>
