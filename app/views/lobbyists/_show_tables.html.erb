@@ -13,7 +13,7 @@
 
     <tbody>
       <% @lobbyist.actions.sort_by { |action| -action.payment }.each do |action| %>
-        <% cache action do %>
+        <% cache [action, action.agencies] do %>
           <tr>
             <td><%= action.purpose %></td>
             <td valign="top"><%= link_to action.client.name, client_path(action.client.slug) %></td>

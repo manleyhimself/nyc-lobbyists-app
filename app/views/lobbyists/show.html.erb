@@ -43,7 +43,7 @@
   </ul>
 
   <div class="tab-content">
-    <% cache @lobbyist do %>
+    <% cache [@lobbyist, @lobbyist.actions, @lobbyist.clients] do %>
       <%= render 'show_tables' %>
     <% end %>
   </div>
