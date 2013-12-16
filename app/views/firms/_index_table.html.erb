@@ -1,5 +1,5 @@
 <% @firms.sort_by_firm_payments.each do |firm| %>
-  <% cache firm do %>
+  <% cache [firm, firm.lobbyists, firm.actions] do %>
     <tr>
       <td><%= link_to firm.name , firm_path(firm.slug) %></td>
       <td>

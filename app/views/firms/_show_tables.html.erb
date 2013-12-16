@@ -15,7 +15,7 @@
 
     <tbody>
       <% @firm.actions.uniq.sort_by { |action| -action.payment }.each do |action| %>
-        <% cache action do %>
+        <% cache [action, action.lobbyist_actions, action.lobbyists, action.agency_actions, action.agencies] do %>
           <tr>
             <td><%= action.purpose %></td>
             <td valign="top"> <% action.lobbyists.each do |lobbyist| %>

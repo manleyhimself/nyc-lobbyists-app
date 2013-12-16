@@ -1,5 +1,5 @@
 <% @agencies.sort_by_sum_payments.each do |agency| %>
-  <% cache agency do %>
+  <% cache [agency, agency.agency_actions, agency.actions, agency.lobbyists, agency.clients] do %>
     <tr>
       <td><%= link_to agency.name, agency_path(agency.slug) %></td>
       <td><%= agency.actions.length %></td>

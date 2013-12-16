@@ -1,5 +1,5 @@
 <% @clients.sort_by_client_payments.each do |client| %>
-  <% cache client do %>
+  <% cache [client, client.actions, client.lobbyists, client.agencies] do %>
     <tr>
       <td><%= link_to client.name, client_path(client.slug) %></td>
       <td>

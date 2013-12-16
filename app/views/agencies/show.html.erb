@@ -1,4 +1,5 @@
 <p id="notice"><%= notice %></p>
+<% cache [@agency, @agency.agency_actions, @agency.actions, @agency.lobbyists, @agency.clients] do %>
 
   <div class='col-md-4 col-md-offset-2'>
     <div class="panel panel-primary">
@@ -57,9 +58,9 @@
       </thead>
 
       <tbody>
-        <% cache @agency do %>
           <%= render 'show_table' %>
-        <% end %>
       </tbody>
     </table>
   </div>
+<% end %>
+

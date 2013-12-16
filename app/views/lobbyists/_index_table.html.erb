@@ -1,5 +1,5 @@
 <% @lobbyists.sort_by_sum_payments.each do |lobbyist| %>
-  <% cache lobbyist do %>
+  <% cache [lobbyist, lobbyist.lobbyist_actions, lobbyist.actions, lobbyist.agencies, lobbyist.clients] do %>
     <tr>
       <td><%= link_to lobbyist.name, lobbyist_path(lobbyist.slug)%></td>
       <td>
