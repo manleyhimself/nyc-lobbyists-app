@@ -5,7 +5,6 @@ class Scraper < ActiveRecord::Base
   @@client_and_lobbyist_arr = []
   @@client_address_arr = []
 
-
   def submit_form
     url = "http://www.nyc.gov/lobbyistsearch/directory.jsp"
     agent = Mechanize.new

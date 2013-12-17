@@ -29,9 +29,9 @@
         Lobbyists: 
       </li>
       <li class="list-group-item">
-        <span class="badge">  
+        <span class="badge" >  
         <% @agency.lobbying_firms.each do |firm|%>
-        <%= link_to firm.name, firm_path(firm.slug) %>;
+        <%= link_to firm.name, firm_path(firm.slug) %>;<br>
         <% end %>
         </span>
         Lobbying Firms:
