@@ -20,7 +20,6 @@ class Firm < ActiveRecord::Base
   end
 
   def self.sort_by_firm_payments
-    self.call_sum
     self.all.sort_by { |firm| -firm.all_payments }   
   end
 

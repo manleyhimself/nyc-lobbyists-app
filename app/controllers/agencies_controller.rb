@@ -6,8 +6,6 @@ class AgenciesController < ApplicationController
   def index
     @agencies = Agency.all
     # Agency.call_average_action_cost
-    Agency.call_solo_payments
-    Agency.call_group_payments
   end
 
   # GET /agencies/1

@@ -44,8 +44,8 @@ class Agency < ActiveRecord::Base
     self.all.sort_by { |agency| -(agency.sum_payments) }
   end
 
-  def sum_payments
-    self.group_payments + self.solo_payments
+  def self.set_sum_payments
+    self.all.each { |agency| agency.update(sum_payments: agency.group_payments + agency.solo_payments) }
   end
 
   def lobbying_firms

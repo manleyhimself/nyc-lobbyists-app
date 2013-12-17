@@ -1,0 +1,1 @@
+ENV['DISABLE_INITIALIZER_FROM_RAKE'] || Application.model_call_setters

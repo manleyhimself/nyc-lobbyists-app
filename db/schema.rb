@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131204170643) do
+ActiveRecord::Schema.define(version: 20131217005223) do
 
   create_table "actions", force: true do |t|
     t.string   "purpose"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20131204170643) do
     t.integer  "average_action_cost", default: 0
     t.integer  "solo_payments",       default: 0
     t.integer  "group_payments",      default: 0
+    t.integer  "sum_payments"
   end
 
   create_table "agency_actions", force: true do |t|
@@ -89,6 +90,7 @@ ActiveRecord::Schema.define(version: 20131204170643) do
     t.string   "slug"
     t.integer  "my_payments",   default: 0
     t.integer  "team_payments", default: 0
+    t.integer  "sum_payments"
   end
 
   add_index "lobbyists", ["firm_id"], name: "index_lobbyists_on_firm_id"

@@ -18,7 +18,6 @@ class Lobbyist < ActiveRecord::Base
   end
 
   def self.sort_by_my_payments
-    self.call_my_payments
     self.all.sort_by { |lobbyist| -lobbyist.my_payments }
   end
 
@@ -34,18 +33,15 @@ class Lobbyist < ActiveRecord::Base
   end
 
   def self.sort_by_team_payments
-    self.call_team_payments
     self.all.sort_by { |lobbyist| -lobbyist.team_payments }
   end
 
   def self.sort_by_sum_payments
-    self.call_team_payments
-    self.call_my_payments
     self.all.sort_by { |lobbyist| -(lobbyist.sum_payments) }
   end
 
-  def sum_payments
-    self.team_payments + self.my_payments
+  def self.set_sum_payments
+    self.all.each { |lobbyist| lobbyist.update(sum_payments: lobbyist.team_payments + lobbyist.my_payments) }
   end
 
 end

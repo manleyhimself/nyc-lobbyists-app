@@ -16,7 +16,6 @@ class Client < ActiveRecord::Base
   end
 
   def self.sort_by_client_payments
-    self.call_sum
     self.all.sort_by { |client| -client.all_payments }   
   end
   
