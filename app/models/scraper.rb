@@ -1,5 +1,5 @@
 require "open-uri"
-
+#step 1: figure out why you have 548 actions, when you should only have 38
 class Scraper < ActiveRecord::Base
 
   @@client_and_lobbyist_arr = []
@@ -39,6 +39,7 @@ class Scraper < ActiveRecord::Base
         end
       end
     end
+    #arr #remove
     # end.compact -uncomment once map is put back in
     parse_pages(arr, collect_lobbyist_org_links) 
   end
@@ -75,7 +76,7 @@ class Scraper < ActiveRecord::Base
     noko_obj.css("span.table_text")
   end
 
-  def find_or_create_action_clients_and_lobbyists_helper(firm_id, begin_date, end_date, purpose, payment, action_id) #inc
+  def find_or_create_action_clients_and_lobbyists_helper(firm_id, begin_date, end_date, purpose, payment, action_id) 
     action_specific_client_lobbyists = []
     @@client_and_lobbyist_arr.each do |client_or_lobbyist|
       break if client_or_lobbyist == nil
@@ -138,7 +139,7 @@ class Scraper < ActiveRecord::Base
     purpose_arr.split("P1")[0].gsub("\r", "").gsub("\n", "").gsub("\t", "").split("  ").map do |x|
       next if x == ""
       x
-    end.compact.join(", ")
+    end.compact.map(&:strip).join(", ").gsub(", Compensation, Reimbursement", "")
   end
 
   def get_payment(payment_arr)
@@ -167,58 +168,62 @@ class Scraper < ActiveRecord::Base
     end.compact.uniq
   end
 
-  def collect_info_from_table_and_pages(big_arr, links_array, links_array_index)
+  def collect_info_from_table_and_pages(main_rows_arr, links_array, links_array_index)
     element_index = 16
     page_iteration_num = 1
     curr_page_num = 1
-    if big_arr.last.include?("Page")
-      pages = (big_arr.last.split("1\n")[0].split("of ")[1].strip.to_i) * 15
+    firm_name = main_rows_arr[16] #switch to levensthein on header, first element may not be right
+    if main_rows_arr.last.include?("Page")
+      rows = (main_rows_arr.last.split("1\n")[0].split("of ")[1].strip.to_i) * 15
 
-      pages.times do |action_id|
+      rows.times do |action_id|
         if page_iteration_num == 16
           element_index = 16
           page_iteration_num = 1
           curr_page_num += 1
+          url = links_array[links_array_index] 
 
-          page = Nokogiri::HTML(open(links_array[links_array_index] << "&op=&pg_l=#{curr_page_num}"))
+          page = Nokogiri::HTML(open(url + "&op=&pg_l=#{curr_page_num}"))
 
-          big_arr = rows_to_text(return_nokogiri_table_rows(page))
+          main_rows_arr = rows_to_text(return_nokogiri_table_rows(page))
+
+          break if main_rows_arr[element_index] != firm_name 
 
           @@client_and_lobbyist_arr = client_lobbyists_to_text(return_nokogiri_clients_lobbyists(page))
 
           @@client_address_arr = rows_to_text(return_nokogiri_client_address(page))
            
         end
-        break if big_arr[element_index] != big_arr[16] #switch to levensthein on header, first element may not be right
+        break if main_rows_arr[element_index] != firm_name 
 
           puts "row: #{action_id + 1}"
           puts "current page: #{curr_page_num}"
          
-          curr_firm = Firm.where(name: big_arr[element_index].downcase, address: big_arr[element_index + 1]).first_or_create
+          curr_firm = Firm.where(name: main_rows_arr[element_index].downcase, address: main_rows_arr[element_index + 1]).first_or_create
           
 
-          agency_purpose_payment_arr = parse_agency_purpose_payment(big_arr[element_index + 7])
+          agency_purpose_payment_arr = parse_agency_purpose_payment(main_rows_arr[element_index + 7])
 
           create_agencies(agency_purpose_payment_arr[0], action_id)
 
-          find_or_create_action_clients_and_lobbyists_helper(curr_firm.id, big_arr[element_index + 4], big_arr[element_index + 5], agency_purpose_payment_arr[1], agency_purpose_payment_arr[2], (action_id + 1))
+          find_or_create_action_clients_and_lobbyists_helper(curr_firm.id, main_rows_arr[element_index + 4], main_rows_arr[element_index + 5], agency_purpose_payment_arr[1], agency_purpose_payment_arr[2], (action_id + 1))
 
         element_index += 8
         page_iteration_num += 1
       end
     else
-      big_arr.length.times do |action_id|
-        break if big_arr[element_index] != big_arr[16] #switch to levensthein on header, first element may not be right
+      main_rows_arr.length.times do |action_id|
+        break if main_rows_arr[element_index] != main_rows_arr[16] #switch to levensthein on header, first element may not be right
 
           puts "row: #{action_id + 1}"
 
-          curr_firm = Firm.where(name: big_arr[element_index].downcase, address: big_arr[element_index + 1]).first_or_create
+          curr_firm = Firm.where(name: main_rows_arr[element_index].downcase, address: main_rows_arr[element_index + 1]).first_or_create
 
-          agency_purpose_payment_arr = parse_agency_purpose_payment(big_arr[element_index + 7])
+          agency_purpose_payment_arr = parse_agency_purpose_payment(main_rows_arr[element_index + 7])
 
           create_agencies(agency_purpose_payment_arr[0], action_id)
 
-          find_or_create_action_clients_and_lobbyists_helper(curr_firm.id, big_arr[element_index + 4], big_arr[element_index + 5], agency_purpose_payment_arr[1], agency_purpose_payment_arr[2], (action_id + 1))
+          find_or_create_action_clients_and_lobbyists_helper(curr_firm.id, main_rows_arr[element_index + 4], main_rows_arr[element_index + 5], agency_purpose_payment_arr[1], agency_purpose_payment_arr[2], (action_id + 1))
 
         element_index += 8
       end
