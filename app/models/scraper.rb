@@ -1,5 +1,5 @@
 require "open-uri"
-#step 1: figure out why you have 548 actions, when you should only have 38
+#step 2: figure out why the purposes are wrong for most firms 
 class Scraper < ActiveRecord::Base
 
   @@client_and_lobbyist_arr = []
