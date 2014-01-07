@@ -6,10 +6,16 @@
 //     });
 //   });
 // });
+$(document).ready(function() {
+    
+    console.log("yoooo");  
+
+});
 
 
 
 $(document).ready(function() 
+
     { 
         $(".firmTable").tablesorter(); 
     } 

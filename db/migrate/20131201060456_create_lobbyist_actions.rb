@@ -1,4 +1,4 @@
-class CreateLobbyistActions < ActiveRecord::Migration
+indeclass CreateLobbyistActions < ActiveRecord::Migration
   def change
     create_table :lobbyist_actions do |t|
       t.references :action, index: true

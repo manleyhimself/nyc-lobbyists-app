@@ -4,29 +4,15 @@ describe LobbyistAction do
   before do
     4.times do |x|
       Lobbyist.create(name: "#{x}L", firm_id: 1)
-    end
-    4.times do |x|
       Client.create(name: "#{x}L")
-    end
-    4.times do |x|
       Agency.create(name: "#{x}L")
-    end
-     4.times do |x|
       Firm.create(name: "#{x}L")
     end
     3.times do |x|
       Action.create(client_id: (x+1), payment: 500)
-    end
-    3.times do |x|
       LobbyistAction.create(lobbyist_id: 1, action_id: (x+1))
-    end
-    3.times do |x|
       LobbyistAction.create(lobbyist_id: (x+2), action_id: (1))
-    end
-    3.times do |x|
       AgencyAction.create(agency_id: 1, action_id: (x+1))
-    end
-    3.times do |x|
       AgencyAction.create(agency_id: (x+2), action_id: (1))
     end
     @lobbyist = Lobbyist.find(1)

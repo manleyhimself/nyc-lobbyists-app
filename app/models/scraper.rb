@@ -1,5 +1,5 @@
 require "open-uri"
-#step 2: figure out why the purposes are wrong for most firms 
+#step 2: figure out why the purposes are wrong for most firms, every firm except for the one with 32 actions has the purposes of this one particular firm 
 class Scraper < ActiveRecord::Base
 
   @@client_and_lobbyist_arr = []
@@ -91,7 +91,7 @@ class Scraper < ActiveRecord::Base
     Action.create(purpose: purpose, payment: payment, begin_date: begin_date, end_date: end_date, client_id: client_id)
   end
 
-  def create_client(action_specific_client_lobbyists_arr)  #inc
+  def create_client(action_specific_client_lobbyists_arr)  
     curr_client = Client.where(name: action_specific_client_lobbyists_arr[0], address: @@client_address_arr[0]).first_or_create
     @@client_address_arr.shift
     @@client_address_arr.shift
